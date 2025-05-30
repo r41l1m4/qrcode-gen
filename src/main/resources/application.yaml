@@ -3,6 +3,6 @@ spring:
     name: qrcode-gen
 
 aws:
-  region: us-east-1
+  region: ${AWS_REGION}
   s3:
-    bucket-name: to-do
+    bucket-name: ${AWS_S3_BUCKET_NAME}
