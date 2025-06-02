@@ -24,9 +24,10 @@ which are some environment variables:
 To pass them, you can either create something like a '.env' file in the project root
 or pass them one by one when starting the Docker container (examples below).
 
+
 ## How's used
 
-You'll use Docker to run the project. You'll open a terminal on the root of the
+You'll use Docker to run the project. You'll open a terminal at the root of the
 project and will build an image by typing:
 
 `docker build -t your_image_name:your_image_version_number .`
@@ -57,7 +58,8 @@ After the container's up, you can use his REST endpoint. It exposes a single end
 
 ```json
 {
-  "data": "your_link"
+  "data": "your_link",
+  "qrcode_size": image_size
 }
 ```
 
@@ -65,6 +67,6 @@ If everything's alright, you must receive a `200 OK` response with a body simila
 
 ```json
 {
-  "link": "https://your_bucket_name.s3.your_region.amazonaws.com/uuid_file_name"
+  "link": "https://your_bucket_name.s3.your_region.amazonaws.com/uuid_image_dimensions"
 }
 ```

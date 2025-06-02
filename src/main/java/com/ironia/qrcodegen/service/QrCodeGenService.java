@@ -22,15 +22,25 @@ public class QrCodeGenService {
         this.storage = storage;
     }
 
-    public QrCodeGenResponse genAndUpQrCode(String text) throws WriterException, IOException {
+    public QrCodeGenResponse genAndUpQrCode(String text, int qrcode_size) throws WriterException, IOException {
+        byte[] qrCodeByteArray = generate(text, qrcode_size);
+        String fileName = String.format("%s_%dx%d", UUID.randomUUID(), qrcode_size, qrcode_size);
+        String url = upload(qrCodeByteArray, fileName);
+
+        return new QrCodeGenResponse(url);
+    }
+
+    private byte[] generate(String text, int qrcode_size) throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 200, 200);
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, qrcode_size, qrcode_size);
 
         ByteArrayOutputStream fileOutputStream = new ByteArrayOutputStream();
         MatrixToImageWriter.writeToStream(bitMatrix, "PNG", fileOutputStream);
 
-        String url = storage.upload(fileOutputStream.toByteArray(), UUID.randomUUID().toString(), "image/png");
+        return fileOutputStream.toByteArray();
+    }
 
-        return new QrCodeGenResponse(url);
+    private String upload(byte[] fileData, String fileName) {
+        return storage.upload(fileData, fileName, "image/png");
     }
 }

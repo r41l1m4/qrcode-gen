@@ -25,7 +25,7 @@ public class QrCodeGenController {
     @PostMapping
     public ResponseEntity<QrCodeGenResponse> generate(@RequestBody QrCodeGenRequest toBeTransformed) {
         try {
-            QrCodeGenResponse response = qrCodeGenService.genAndUpQrCode(toBeTransformed.data());
+            QrCodeGenResponse response = qrCodeGenService.genAndUpQrCode(toBeTransformed.data(), toBeTransformed.qrcode_size());
             return ResponseEntity.ok(response);
         } catch (WriterException we) {
             System.out.println(we.getMessage());
